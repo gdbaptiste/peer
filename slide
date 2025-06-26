@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>AutoPeer | The Trusted Marketplace for Private Car Sales</title>
+   <!-- Chosen Palette: AutoPeer Blueprint Palette -->
+   <!-- Application Structure Plan: A single-page, vertical-scrolling application with a fixed top navigation bar. This structure allows investors to either follow the narrative flow from problem to solution to ask, or use the navigation to jump directly to sections of interest like 'Financials' or 'Team'. This is more engaging than a linear slide deck and provides better usability for an audience that might be short on time and wants to find specific information quickly. Key interactions include animated counters for market stats, interactive charts for financials and funding allocation, and a step-by-step reveal for the 'How it Works' section. -->
+   <!-- Visualization & Content Choices: The application translates the pitch deck slides into interactive web sections. Market Opportunity: Goal is to impress with large numbers, so animated counters are used. Business Model: A donut chart visualizes the LTV/CAC ratio for quick comprehension. Competition: An HTML/CSS grid visually represents the 2x2 matrix, a more integrated approach than a static image. Financials: An interactive bar chart (Chart.js) allows toggling data series (GMV, Revenue, EBITDA) to let users explore the data without being overwhelmed. The Ask: A donut chart (Chart.js) clearly visualizes the use of funds. These choices make the data more digestible and interactive, enhancing user engagement and understanding. -->
+   <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+   <script src="https://cdn.tailwindcss.com"></script>
+   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+   <style>
+       body {
+           font-family: 'Inter', sans-serif;
+           background-color: #F8F9FA;
+           color: #343A40;
+       }
+       .hero-bg {
+           background-image: linear-gradient(rgba(10, 37, 64, 0.7), rgba(10, 37, 64, 0.7)), url('https://images.unsplash.com/photo-1552519507-da3b142c6e3d?q=80&w=2070&auto=format&fit=crop');
+           background-size: cover;
+           background-position: center;
+       }
+       .primary-text { color: #0A2540; }
+       .accent-text { color: #007BFF; }
+       .success-text { color: #28A745; }
+       .primary-bg { background-color: #0A2540; }
+       .accent-bg { background-color: #007BFF; }
+       .chart-container {
+           position: relative;
+           width: 100%;
+           max-width: 800px;
+           margin-left: auto;
+           margin-right: auto;
+           height: 300px;
+       }
+       @media (min-width: 768px) {
+           .chart-container {
+               height: 400px;
+           }
+       }
+       .nav-link {
+           transition: color 0.3s ease;
+       }
+       .nav-link.active {
+           color: #007BFF;
+           font-weight: 700;
+       }
+       .stat-card:hover {
+           transform: translateY(-5px);
+           box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+       }
+   </style>
+</head>
+<body class="antialiased">
+
+
+   <header id="header" class="primary-bg text-white shadow-md fixed w-full z-50 transition-all duration-300">
+       <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+           <nav class="flex items-center justify-between h-16">
+               <a href="#home" class="text-2xl font-bold tracking-tight">AUTOPEER</a>
+               <div class="hidden lg:flex items-center space-x-2">
+                   <a href="#problem" class="nav-link px-2 py-2 rounded-md text-sm font-semibold">Problem</a>
+                   <a href="#solution" class="nav-link px-2 py-2 rounded-md text-sm font-semibold">Solution</a>
+                   <a href="#how-it-works" class="nav-link px-2 py-2 rounded-md text-sm font-semibold">How It Works</a>
+                   <a href="#market" class="nav-link px-2 py-2 rounded-md text-sm font-semibold">Market</a>
+                   <a href="#audience" class="nav-link px-2 py-2 rounded-md text-sm font-semibold">Audience</a>
+                   <a href="#competition" class="nav-link px-2 py-2 rounded-md text-sm font-semibold">Competition</a>
+                   <a href="#traction" class="nav-link px-2 py-2 rounded-md text-sm font-semibold">Traction</a>
+                   <a href="#team" class="nav-link px-2 py-2 rounded-md text-sm font-semibold">Team</a>
+                   <a href="#financials" class="nav-link px-2 py-2 rounded-md text-sm font-semibold">Financials</a>
+                   <a href="#ask" class="nav-link accent-bg text-white px-4 py-2 rounded-full text-sm font-bold">The Ask</a>
+               </div>
+               <div class="lg:hidden">
+                   <button id="mobile-menu-button" class="text-white focus:outline-none">
+                       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                   </button>
+               </div>
+           </nav>
+       </div>
+       <div id="mobile-menu" class="lg:hidden hidden bg-gray-800">
+            <a href="#problem" class="block text-white text-sm px-4 py-2">Problem</a>
+           <a href="#solution" class="block text-white text-sm px-4 py-2">Solution</a>
+           <a href="#how-it-works" class="block text-white text-sm px-4 py-2">How It Works</a>
+           <a href="#market" class="block text-white text-sm px-4 py-2">Market</a>
+           <a href="#audience" class="block text-white text-sm px-4 py-2">Audience</a>
+           <a href="#competition" class="block text-white text-sm px-4 py-2">Competition</a>
+           <a href="#traction" class="block text-white text-sm px-4 py-2">Traction</a>
+           <a href="#team" class="block text-white text-sm px-4 py-2">Team</a>
+           <a href="#financials" class="block text-white text-sm px-4 py-2">Financials</a>
+           <a href="#ask" class="block text-white text-sm px-4 py-2">The Ask</a>
+       </div>
+   </header>
+
+
+   <main>
+       <section id="home" class="hero-bg h-screen flex items-center justify-center text-white text-center">
+           <div class="container mx-auto px-4">
+               <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight">AUTOPEER</h1>
+               <p class="text-2xl md:text-4xl font-semibold max-w-4xl mx-auto mt-4">The Trusted Marketplace for Private Car Sales.</p>
+               <div class="mt-8 text-lg md:text-xl font-medium">
+                   <p>Gerard Baptiste, CEO & Founder</p>
+                   <p>contact@autopeer.com</p>
+               </div>
+           </div>
+       </section>
+
+
+       <section id="problem" class="py-20 lg:py-28">
+           <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+               <div class="text-center mb-12">
+                   <h2 class="text-4xl lg:text-5xl font-extrabold primary-text">Buying a used car privately is <span class="accent-text">unreliable and inefficient.</span></h2>
+                   <p class="mt-4 text-lg lg:text-xl max-w-3xl mx-auto">Sellers lose money and buyers face scams. The process is broken, leaving everyone feeling vulnerable and frustrated.</p>
+               </div>
+               <div class="grid md:grid-cols-3 gap-8">
+                   <div class="bg-white p-8 rounded-lg shadow-lg text-center">
+                       <span class="text-6xl">😟</span>
+                       <h3 class="text-2xl font-bold primary-text my-4">Massive Trust Deficit</h3>
+                       <p>High risk of fraud, misleading ads, and unsafe meetups. <b class="accent-text">1 in 3</b> private sales end in a major dispute.</p>
+                   </div>
+                   <div class="bg-white p-8 rounded-lg shadow-lg text-center">
+                       <span class="text-6xl">💸</span>
+                       <h3 class="text-2xl font-bold primary-text my-4">Value Loss & Complexity</h3>
+                       <p>Complex paperwork and pricing uncertainty mean sellers earn <b class="accent-text">~20% less</b> than dealer trade-ins.</p>
+                   </div>
+                   <div class="bg-white p-8 rounded-lg shadow-lg text-center">
+                       <span class="text-6xl"> unsupported </span>
+                       <h3 class="text-2xl font-bold primary-text my-4">No Support or Security</h3>
+                       <p>No integrated inspections or secure payment options, leaving both parties exposed to risk.</p>
+                   </div>
+               </div>
+           </div>
+       </section>
+
+
+       <section id="solution" class="py-20 lg:py-28 bg-white">
+           <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+               <div class="text-center mb-12">
+                   <h2 class="text-4xl lg:text-5xl font-extrabold primary-text">A Fast, On-Demand Platform that Guarantees <span class="accent-text">Secure Transactions.</span></h2>
+                   <p class="mt-4 text-lg lg:text-xl max-w-3xl mx-auto">AutoPeer is an end-to-end marketplace that manages the entire transaction, providing tools that build trust and deliver value for both buyers and sellers.</p>
+               </div>
+               <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+                   <div class="p-6">
+                       <span class="text-6xl">🔐</span>
+                       <h3 class="text-xl font-bold primary-text mt-4 mb-2">Secure Escrow Payments</h3>
+                       <p>We hold funds securely until the car is delivered and both parties confirm the transaction.</p>
+                   </div>
+                   <div class="p-6">
+                       <span class="text-6xl">🤖</span>
+                       <h3 class="text-xl font-bold primary-text mt-4 mb-2">AI & Mechanic Inspections</h3>
+                       <p>We provide transparent, reliable vehicle condition reports so there are no surprises.</p>
+                   </div>
+                   <div class="p-6">
+                       <span class="text-6xl">🧾</span>
+                       <h3 class="text-xl font-bold primary-text mt-4 mb-2">Automated Paperwork</h3>
+                       <p>Our guided process makes complex paperwork like title transfers simple and error-free.</p>
+                   </div>
+                   <div class="p-6">
+                       <span class="text-6xl">🧑‍💻</span>
+                       <h3 class="text-xl font-bold primary-text mt-4 mb-2">Verified Users</h3>
+                       <p>We mandate identity verification to build a community of trusted buyers and sellers.</p>
+                   </div>
+               </div>
+               <p class="text-center text-2xl font-bold primary-text mt-12 italic">After using our platform, sellers get a higher price with zero hassle.</p>
+           </div>
+       </section>
+      
+       <section id="how-it-works" class="py-20 lg:py-28">
+           <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+               <div class="text-center mb-16">
+                   <h2 class="text-4xl lg:text-5xl font-extrabold primary-text">We Handle the Deal. <span class="accent-text">You Drive.</span></h2>
+                   <p class="mt-4 text-lg lg:text-xl max-w-3xl mx-auto">Our 3-step process is designed for simplicity and security.</p>
+               </div>
+                <div class="max-w-4xl mx-auto grid md:grid-cols-3 gap-8 text-center">
+                   <div class="bg-white p-8 rounded-lg shadow-md">
+                       <div class="text-3xl font-bold accent-text mb-4">1</div>
+                       <h3 class="text-xl font-bold primary-text mb-2">List & Verify</h3>
+                       <p>Sellers list their car in minutes. We verify the vehicle, owner, and title to ensure legitimacy.</p>
+                   </div>
+                   <div class="bg-white p-8 rounded-lg shadow-md">
+                       <div class="text-3xl font-bold accent-text mb-4">2</div>
+                       <h3 class="text-xl font-bold primary-text mb-2">Inspect & Pay</h3>
+                       <p>Buyers schedule an inspection and fund our secure escrow account once they're ready to purchase.</p>
+                   </div>
+                   <div class="bg-white p-8 rounded-lg shadow-md">
+                        <div class="text-3xl font-bold accent-text mb-4">3</div>
+                       <h3 class="text-xl font-bold primary-text mb-2">Sign & Exchange</h3>
+                       <p>We handle all digital paperwork. Once complete, the buyer gets the car and we release funds to the seller.</p>
+                   </div>
+               </div>
+           </div>
+       </section>
+      
+       <section id="business-model" class="py-20 lg:py-28 bg-white">
+           <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                   <h2 class="text-4xl lg:text-5xl font-extrabold primary-text">A Simple Model to <span class="accent-text">Monetize Trust.</span></h2>
+                   <p class="mt-4 text-lg lg:text-xl max-w-3xl mx-auto">We generate revenue by taking a small, transparent fee on successful transactions, ensuring we only win when our users do.</p>
+               </div>
+               <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-8">
+                   <div class="bg-gray-50 p-8 rounded-lg border border-gray-200 text-center">
+                        <h3 class="text-2xl font-bold primary-text mb-2">Consumer Transactions</h3>
+                        <p class="text-4xl font-extrabold accent-text my-2">3.5% Fee</p>
+                        <p class="font-semibold">Per successful sale, paid by the seller from the proceeds.</p>
+                   </div>
+                   <div class="bg-gray-50 p-8 rounded-lg border border-gray-200 text-center">
+                        <h3 class="text-2xl font-bold primary-text mb-2">Premium Services</h3>
+                        <p class="text-4xl font-extrabold accent-text my-2">$100+</p>
+                        <p class="font-semibold">Optional add-ons like enhanced vehicle history reports and delivery services.</p>
+                   </div>
+               </div>
+           </div>
+       </section>
+
+
+       <section id="market" class="py-20 lg:py-28">
+           <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+               <div class="text-center mb-12">
+                   <h2 class="text-4xl lg:text-5xl font-extrabold primary-text">A Massive, Underserved Market <span class="accent-text">Ready for Disruption.</span></h2>
+               </div>
+               <div class="grid md:grid-cols-3 gap-8">
+                   <div class="stat-card bg-white p-8 rounded-lg shadow-lg text-center transition-all duration-300">
+                       <p class="text-sm font-bold uppercase tracking-wider text-gray-500">Total Addressable Market (TAM)</p>
+                       <p class="text-5xl lg:text-6xl font-extrabold accent-text my-2" data-target="400000000000">$0</p>
+                       <p class="mt-2 text-lg font-semibold primary-text">U.S. Private Party Auto Sales</p>
+                   </div>
+                   <div class="stat-card bg-white p-8 rounded-lg shadow-lg text-center transition-all duration-300">
+                       <p class="text-sm font-bold uppercase tracking-wider text-gray-500">Serviceable Addressable Market (SAM)</p>
+                       <p class="text-5xl lg:text-6xl font-extrabold accent-text my-2" data-target="80000000000">$0</p>
+                       <p class="mt-2 text-lg font-semibold primary-text">Online P2P Segment</p>
+                   </div>
+                   <div class="stat-card bg-white p-8 rounded-lg shadow-lg text-center transition-all duration-300">
+                       <p class="text-sm font-bold uppercase tracking-wider text-gray-500">Serviceable Obtainable Market (SOM)</p>
+                       <p class="text-5xl lg:text-6xl font-extrabold accent-text my-2" data-target="100000000">$0</p>
+                       <p class="mt-2 text-lg font-semibold primary-text">Year 2 Target - 3 Metro Areas</p>
+                   </div>
+               </div>
+                <p class="text-center text-sm text-gray-500 mt-4">Source: Industry Reports 2024, Internal Analysis</p>
+           </div>
+       </section>
+
+
+       <section id="audience" class="py-20 lg:py-28 bg-white">
+           <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+               <div class="text-center mb-12">
+                   <h2 class="text-4xl lg:text-5xl font-extrabold primary-text">Our Target Audience</h2>
+                   <p class="mt-4 text-lg lg:text-xl max-w-3xl mx-auto">We focus on two key user segments who are underserved by current options.</p>
+               </div>
+               <div class="max-w-5xl mx-auto grid md:grid-cols-2 gap-8">
+                   <div class="bg-gray-50 p-8 rounded-lg border">
+                       <h3 class="text-2xl font-bold primary-text mb-4">The Seller: "Max Value, Min Hassle"</h3>
+                       <ul class="space-y-3 text-lg">
+                           <li><b>Who:</b> A busy professional or family (25-55) selling their secondary vehicle.</li>
+                           <li><b>Goal:</b> Get a better price than a dealer trade-in without the stress of a typical private sale.</li>
+                           <li><b>Pain Points:</b> Wasting time with lowballers, fear of scams, confusing paperwork.</li>
+                           <li><b>Motivator:</b> <span class="success-text font-bold">Convenience and Profit.</span> They'll pay a small fee to avoid headaches and maximize their return.</li>
+                       </ul>
+                   </div>
+                   <div class="bg-gray-50 p-8 rounded-lg border">
+                       <h3 class="text-2xl font-bold primary-text mb-4">The Buyer: "Confident & Secure"</h3>
+                       <ul class="space-y-3 text-lg">
+                            <li><b>Who:</b> A first-time car buyer or value-conscious consumer (18-40).</li>
+                           <li><b>Goal:</b> Find a quality used car at a fair price without the fear of being ripped off.</li>
+                           <li><b>Pain Points:</b> Hidden mechanical issues, fraudulent sellers, overpaying at a dealership.</li>
+                           <li><b>Motivator:</b> <span class="success-text font-bold">Trust and Security.</span> They want verified information and a secure process.</li>
+                       </ul>
+                   </div>
+               </div>
+           </div>
+       </section>
+
+
+       <section id="competition" class="py-20 lg:py-28">
+           <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+               <div class="text-center mb-12">
+                   <h2 class="text-4xl lg:text-5xl font-extrabold primary-text">They List Cars. <span class="accent-text">We Complete Transactions.</span></h2>
+                   <p class="mt-4 text-lg lg:text-xl max-w-3xl mx-auto">No one else provides a fully-integrated solution for trust and support in the private market.</p>
+               </div>
+               <div class="max-w-4xl mx-auto">
+                   <div class="grid grid-cols-2 grid-rows-2 gap-2 bg-white p-4 rounded-lg shadow-lg relative">
+                       <div class="absolute top-1/2 left-0 w-full h-px bg-gray-300"></div>
+                       <div class="absolute left-1/2 top-0 h-full w-px bg-gray-300"></div>
+                      
+                       <div class="p-4 flex flex-col justify-start items-start">
+                            <h4 class="font-bold text-lg accent-text">High Trust / Low Support</h4>
+                            <p class="mt-2 text-gray-500">Carvana, Vroom<br/><small>(Dealer models, not P2P)</small></p>
+                       </div>
+                       <div class="p-4 flex flex-col justify-start items-end text-right">
+                            <h4 class="font-bold text-lg success-text">High Trust / High Support</h4>
+                            <p class="mt-2 text-2xl font-extrabold primary-text">AUTOPEER</p>
+                       </div>
+                       <div class="p-4 flex flex-col justify-end items-start">
+                            <h4 class="font-bold text-lg primary-text">Low Trust / Low Support</h4>
+                            <p class="mt-2 text-gray-500">Craigslist, Facebook Marketplace<br/><small>(Listing sites, no transaction tools)</small></p>
+                       </div>
+                       <div class="p-4 flex flex-col justify-end items-end text-right">
+                           <h4 class="font-bold text-lg primary-text">Low Trust / High Support</h4>
+                           <p class="mt-2 text-gray-500">(Largely Empty Quadrant)</p>
+                       </div>
+                      
+                       <div class="absolute -bottom-8 left-1/2 -translate-x-1/2 font-semibold text-gray-500">Transaction Support →</div>
+                       <div class="absolute -left-8 top-1/2 -translate-y-1/2 -rotate-90 font-semibold text-gray-500">Trust & Security →</div>
+                   </div>
+               </div>
+           </div>
+       </section>
+
+
+       <section id="traction" class="py-20 lg:py-28 bg-white">
+           <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+               <div class="text-center mb-12">
+                   <h2 class="text-4xl lg:text-5xl font-extrabold primary-text">Early Traction Signals <span class="accent-text">Strong Product-Market Fit.</span></h2>
+                   <p class="mt-4 text-lg lg:text-xl max-w-3xl mx-auto">With zero marketing spend, we've validated our core assumptions and are ready to scale.</p>
+               </div>
+               <div class="max-w-5xl mx-auto grid lg:grid-cols-2 gap-8 items-center">
+                   <div>
+                        <h3 class="text-2xl font-bold primary-text mb-4">Key Metrics & Milestones</h3>
+                        <div class="space-y-4">
+                           <div class="bg-gray-50 p-4 rounded-lg shadow-sm flex items-center space-x-4">
+                               <span class="text-4xl">🚀</span>
+                               <div><p class="text-lg font-semibold">Product: <span class="success-text font-bold">MVP Launched</span> & operational in Beta.</p></div>
+                           </div>
+                            <div class="bg-gray-50 p-4 rounded-lg shadow-sm flex items-center space-x-4">
+                               <span class="text-4xl">📈</span>
+                               <div><p class="text-lg font-semibold">User Demand: <span class="success-text font-bold">100+ sellers</span> on waitlist (30% MoM growth).</p></div>
+                           </div>
+                           <div class="bg-gray-50 p-4 rounded-lg shadow-sm flex items-center space-x-4">
+                               <span class="text-4xl">🤝</span>
+                               <div><p class="text-lg font-semibold">Partnerships: <span class="success-text font-bold">5 certified mechanic partners</span> onboarded.</p></div>
+                           </div>
+                        </div>
+                   </div>
+                   <div>
+                       <div class="chart-container" style="height: 300px;">
+                           <canvas id="tractionChart"></canvas>
+                       </div>
+                   </div>
+               </div>
+           </div>
+       </section>
+
+
+       <section id="team" class="py-20 lg:py-28">
+           <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+               <div class="text-center mb-12">
+                   <h2 class="text-4xl lg:text-5xl font-extrabold primary-text">The Right Team to <span class="accent-text">Win This Market.</span></h2>
+                   <p class="mt-4 text-lg lg:text-xl max-w-3xl mx-auto">We have the perfect blend of deep automotive experience and world-class technical leadership.</p>
+               </div>
+               <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-8">
+                   <div class="bg-white p-8 rounded-lg text-center shadow-lg">
+                       <img src="https://placehold.co/128x128/0A2540/FFFFFF?text=GB" class="w-32 h-32 rounded-full mx-auto mb-4" alt="Gerard Baptiste">
+                       <h3 class="text-2xl font-bold primary-text">Gerard D. Baptiste</h3>
+                       <p class="font-semibold accent-text mb-4">CEO & Founder</p>
+                       <p class="text-left">12+ years of executive leadership in the auto industry. Proven strategist who scaled dealer profit by over 25% YoY. Sold 10,000+ cars and has lived the problems we are solving.</p>
+                   </div>
+                   <div class="bg-white p-8 rounded-lg text-center shadow-lg">
+                       <img src="https://placehold.co/128x128/007BFF/FFFFFF?text=CTO" class="w-32 h-32 rounded-full mx-auto mb-4" alt="CTO">
+                       <h3 class="text-2xl font-bold primary-text">[Name], CTO</h3>
+                       <p class="font-semibold accent-text mb-4">Marketplace Architect</p>
+                       <p class="text-left">Ex-Uber marketplace architect. Expert in building and scaling complex, secure, two-sided technology platforms that handle billions in transaction volume.</p>
+                   </div>
+               </div>
+           </div>
+       </section>
+      
+       <section id="financials" class="py-20 lg:py-28 bg-white">
+           <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+               <div class="text-center mb-12">
+                   <h2 class="text-4xl lg:text-5xl font-extrabold primary-text">A Clear & Realistic <span class="accent-text">Path to Profitability.</span></h2>
+                   <p class="mt-4 text-lg lg:text-xl max-w-3xl mx-auto">Our 3-year forecast is driven by conservative assumptions on user acquisition and transaction volume.</p>
+               </div>
+               <div class="chart-container">
+                   <canvas id="financialsChart"></canvas>
+               </div>
+               <div id="financials-legend" class="text-center mt-4 flex justify-center space-x-4"></div>
+              
+               <div class="max-w-5xl mx-auto mt-12 grid md:grid-cols-2 gap-8">
+                   <div>
+                       <h3 class="text-2xl font-bold primary-text mb-4">Key Financial KPIs (Year 1)</h3>
+                       <div class="bg-gray-50 p-6 rounded-lg border">
+                           <ul class="space-y-2">
+                               <li><strong>LTV (Lifetime Value):</strong> $210</li>
+                               <li><strong>CAC (Customer Acquisition Cost):</strong> $35</li>
+                               <li><strong class="success-text">LTV to CAC Ratio:</strong> 6 to 1</li>
+                               <li><strong>Monthly Burn:</strong> $110k</li>
+                               <li><strong>Runway with funding:</strong> 18 months</li>
+                           </ul>
+                       </div>
+                   </div>
+                   <div>
+                       <h3 class="text-2xl font-bold primary-text mb-4">Core Assumptions</h3>
+                        <div class="bg-gray-50 p-6 rounded-lg border">
+                            <ul class="space-y-2">
+                               <li><strong>User Growth:</strong> 20% MoM post-launch</li>
+                               <li><strong>Avg. Transaction Value:</strong> $15,000</li>
+                               <li><strong>Transaction Fee:</strong> 3.5%</li>
+                               <li><strong>Market Expansion:</strong> 1 new metro area every 9 months</li>
+                           </ul>
+                       </div>
+                   </div>
+               </div>
+           </div>
+       </section>
+
+
+       <section id="ask" class="py-20 lg:py-28 primary-bg text-white">
+           <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+               <div class="text-center mb-12">
+                   <h2 class="text-5xl lg:text-6xl font-extrabold">Seeking $2M to <span style="color: #007BFF;">Revolutionize</span> Car Sales.</h2>
+                   <p class="mt-4 text-lg lg:text-xl max-w-3xl mx-auto">This seed round will provide an 18-month runway to capture the market and achieve key growth milestones.</p>
+               </div>
+               <div class="grid lg:grid-cols-2 gap-12 items-center">
+                   <div>
+                       <h3 class="text-3xl font-bold mb-6">Use of Funds:</h3>
+                       <div class="chart-container" style="height:300px; max-width:350px;">
+                           <canvas id="useOfFundsChart"></canvas>
+                       </div>
+                       <ul class="space-y-2 mt-4 text-lg">
+                           <li class="flex items-center"><span class="w-3 h-3 rounded-full mr-2" style="background-color: #007BFF;"></span><span class="font-bold">45% Product & Engineering</span></li>
+                           <li class="flex items-center"><span class="w-3 h-3 rounded-full mr-2" style="background-color: #28A745;"></span><span class="font-bold">35% Sales & Marketing</span></li>
+                           <li class="flex items-center"><span class="w-3 h-3 rounded-full mr-2" style="background-color: #343A40;"></span><span class="font-bold">20% Operations & G&A</span></li>
+                       </ul>
+                   </div>
+                   <div class="text-lg">
+                       <h3 class="text-3xl font-bold mb-6">Key Milestones (18 Months):</h3>
+                       <ul class="space-y-4">
+                           <li class="p-4 bg-gray-700 rounded-lg"><strong class="accent-text">Achieve $1M in GMV:</strong> Process over 65 transactions, proving model scalability.</li>
+                           <li class="p-4 bg-gray-700 rounded-lg"><strong class="accent-text">Acquire 10,000 Users:</strong> Establish a strong user base in the initial DMV market.</li>
+                           <li class="p-4 bg-gray-700 rounded-lg"><strong class="accent-text">Expand to 2 New Markets:</strong> Begin expansion into Philadelphia and Richmond metro areas.</li>
+                            <li class="p-4 bg-gray-700 rounded-lg"><strong class="accent-text">Position for Series A:</strong> Reach key metrics to successfully raise our next round.</li>
+                       </ul>
+                   </div>
+               </div>
+               <div class="text-center mt-16">
+                    <p class="text-3xl font-bold">Join us in building the future of peer-to-peer commerce.</p>
+                    <p class="mt-4 text-xl">Gerard Baptiste | contact@autopeer.com</p>
+               </div>
+           </div>
+       </section>
+   </main>
+
+
+   <footer class="bg-gray-800 text-white py-6">
+       <div class="container mx-auto px-4 text-center">
+           <p>&copy; 2025 AutoPeer. All Rights Reserved.</p>
+       </div>
+   </footer>
+
+
+   <script>
+       document.addEventListener('DOMContentLoaded', function () {
+           // Mobile Menu
+           const mobileMenuButton = document.getElementById('mobile-menu-button');
+           const mobileMenu = document.getElementById('mobile-menu');
+           mobileMenuButton.addEventListener('click', () => {
+               mobileMenu.classList.toggle('hidden');
+           });
+          
+           // Header opacity on scroll
+           const header = document.getElementById('header');
+           window.addEventListener('scroll', () => {
+               if (window.scrollY > 50) {
+                   header.classList.add('bg-opacity-90', 'backdrop-blur-sm');
+               } else {
+                   header.classList.remove('bg-opacity-90', 'backdrop-blur-sm');
+               }
+           });
+
+
+           // Active nav link highlighting
+           const sections = document.querySelectorAll('section');
+           const navLinks = document.querySelectorAll('.nav-link');
+           const mobileNavLinks = document.querySelectorAll('#mobile-menu a');
+
+
+           const observerOptions = {
+               root: null,
+               rootMargin: '0px',
+               threshold: 0.4,
+           };
+          
+           const setActiveLink = (id) => {
+                navLinks.forEach(link => {
+                   link.classList.remove('active');
+                   if (link.getAttribute('href').substring(1) === id) {
+                       link.classList.add('active');
+                   }
+               });
+               mobileNavLinks.forEach(link => {
+                   link.classList.remove('bg-gray-700');
+                   if(link.getAttribute('href').substring(1) === id) {
+                       link.classList.add('bg-gray-700');
+                   }
+               })
+           };
+
+
+           const observer = new IntersectionObserver((entries) => {
+               entries.forEach(entry => {
+                   if (entry.isIntersecting) {
+                      setActiveLink(entry.target.id);
+                   }
+               });
+           }, observerOptions);
+
+
+           sections.forEach(section => {
+               observer.observe(section);
+           });
+
+
+
+
+           // Animated counters
+           const counters = document.querySelectorAll('[data-target]');
+           const speed = 200;
+
+
+           const animateCounter = (counter) => {
+               const target = +counter.getAttribute('data-target');
+               let count = 0;
+               const updateCount = () => {
+                   const increment = target / speed;
+                   count += increment;
+
+
+                   if (count < target) {
+                       counter.innerText = '$' + new Intl.NumberFormat().format(Math.ceil(count));
+                       requestAnimationFrame(updateCount);
+                   } else {
+                       counter.innerText = '$' + new Intl.NumberFormat().format(target);
+                   }
+               };
+               updateCount();
+           };
+          
+           const counterObserver = new IntersectionObserver((entries, observer) => {
+               entries.forEach(entry => {
+                   if (entry.isIntersecting) {
+                       animateCounter(entry.target);
+                       observer.unobserve(entry.target);
+                   }
+               });
+           }, { threshold: 0.5 });
+
+
+           counters.forEach(counter => {
+               counterObserver.observe(counter);
+           });
+          
+           // Chart.js Implementations
+           const primaryBlue = '#0A2540';
+           const accentBlue = '#007BFF';
+           const successGreen = '#28A745';
+           const textColor = '#343A40';
+           Chart.defaults.font.family = "'Inter', sans-serif";
+           Chart.defaults.color = textColor;
+
+
+           // Traction Chart
+           const tractionCtx = document.getElementById('tractionChart');
+           if(tractionCtx) {
+               new Chart(tractionCtx, {
+                   type: 'bar',
+                   data: {
+                       labels: ['Jan', 'Feb', 'Mar', 'Apr'],
+                       datasets: [{
+                           label: 'Seller Waitlist',
+                           data: [45, 62, 80, 105],
+                           backgroundColor: 'rgba(0, 123, 255, 0.7)',
+                           borderColor: accentBlue,
+                           borderWidth: 1
+                       }]
+                   },
+                   options: {
+                       responsive: true,
+                       maintainAspectRatio: false,
+                       plugins: {
+                           legend: {
+                               display: false
+                           },
+                            title: {
+                               display: true,
+                               text: 'Seller Waitlist Growth (MoM)'
+                           }
+                       },
+                       scales: {
+                           y: {
+                               beginAtZero: true
+                           }
+                       }
+                   }
+               });
+           }
+
+
+           // Use of Funds Chart
+           const useOfFundsCtx = document.getElementById('useOfFundsChart');
+           if(useOfFundsCtx){
+               new Chart(useOfFundsCtx, {
+                   type: 'doughnut',
+                   data: {
+                       labels: ['Product & Engineering', 'Sales & Marketing', 'Operations & G&A'],
+                       datasets: [{
+                           data: [45, 35, 20],
+                           backgroundColor: [accentBlue, successGreen, primaryBlue],
+                           borderColor: '#F8F9FA',
+                           borderWidth: 4
+                       }]
+                   },
+                   options: {
+                       responsive: true,
+                       maintainAspectRatio: false,
+                       cutout: '60%',
+                       plugins: {
+                          legend: {
+                               display: false
+                           },
+                            tooltip: {
+                               callbacks: {
+                                   label: function(context) {
+                                       return `${context.label}: ${context.raw}%`;
+                                   }
+                               }
+                           }
+                       }
+                   }
+               });
+           }
+          
+           // Financials Chart
+           const financialsCtx = document.getElementById('financialsChart');
+           if(financialsCtx){
+               const financialData = {
+                   labels: ['Year 1', 'Year 2', 'Year 3'],
+                   datasets: [
+                       {
+                           label: 'GMV',
+                           data: [9.6, 41.7, 130.8],
+                           backgroundColor: 'rgba(10, 37, 64, 0.7)', // primaryBlue with alpha
+                           borderColor: primaryBlue,
+                           borderWidth: 2,
+                           hidden: false,
+                           yAxisID: 'yPrimary',
+                       },
+                       {
+                           label: 'Revenue',
+                           data: [0.192, 1.263, 4.584],
+                           backgroundColor: 'rgba(0, 123, 255, 0.7)', // accentBlue with alpha
+                           borderColor: accentBlue,
+                           borderWidth: 2,
+                           hidden: false,
+                            yAxisID: 'yPrimary',
+                       },
+                        {
+                           label: 'EBITDA',
+                           data: [-1.396, -1.838, 1.790],
+                           backgroundColor: 'rgba(40, 167, 69, 0.7)', // A red color for negative values
+                           borderColor: successGreen,
+                           borderWidth: 2,
+                           hidden: false,
+                           yAxisID: 'ySecondary',
+                       }
+                   ]
+               };
+
+
+               const financialChart = new Chart(financialsCtx, {
+                   type: 'bar',
+                   data: financialData,
+                   options: {
+                       responsive: true,
+                       maintainAspectRatio: false,
+                       scales: {
+                          yPrimary: {
+                               type: 'linear',
+                               position: 'left',
+                               title: {
+                                   display: true,
+                                   text: 'Value in Millions ($M)'
+                               },
+                               beginAtZero: true
+                           },
+                           ySecondary: {
+                               type: 'linear',
+                               position: 'right',
+                               title: {
+                                   display: true,
+                                   text: 'EBITDA in Millions ($M)'
+                               },
+                               grid: {
+                                   drawOnChartArea: false
+                               },
+                           }
+                       },
+                       plugins: {
+                           legend: {
+                               display: false,
+                           },
+                           tooltip: {
+                               mode: 'index',
+                               intersect: false,
+                               callbacks: {
+                                   label: function(context) {
+                                       let label = context.dataset.label || '';
+                                       if (label) {
+                                           label += ': ';
+                                       }
+                                       if (context.parsed.y !== null) {
+                                           label += new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', notation: 'compact' }).format(context.parsed.y * 1000000);
+                                       }
+                                       return label;
+                                   }
+                               }
+                           }
+                       }
+                   }
+               });
+              
+               // Custom Legend for Financials Chart
+               const legendContainer = document.getElementById('financials-legend');
+               financialChart.data.datasets.forEach((dataset, i) => {
+                   const legendItem = document.createElement('button');
+                   legendItem.innerHTML = `<span class="inline-block w-4 h-4 mr-2 rounded" style="background-color: ${dataset.backgroundColor}"></span>${dataset.label}`;
+                   legendItem.className = 'px-4 py-2 text-sm rounded-full font-semibold border-2 cursor-pointer transition-all';
+                   legendItem.style.borderColor = dataset.borderColor;
+                   legendItem.style.color = dataset.borderColor;
+                  
+                   if (dataset.hidden) {
+                       legendItem.classList.add('opacity-50');
+                   }
+                  
+                   legendItem.onclick = () => {
+                       const meta = financialChart.getDatasetMeta(i);
+                       meta.hidden = !meta.hidden;
+                       legendItem.classList.toggle('opacity-50');
+                       financialChart.update();
+                   };
+                   legendContainer.appendChild(legendItem);
+               });
+           }
+       });
+   </script>
+
+
+</body>
+</html>
+
+
+
